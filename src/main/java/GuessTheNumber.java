@@ -1,4 +1,7 @@
+import java.sql.SQLOutput;
+import java.util.InputMismatchException;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GuessTheNumber {
 
@@ -8,39 +11,57 @@ public class GuessTheNumber {
         // Note: you may have to import the Random class
         // int randomNumber = new Random().nextInt(100) + 1;
 
-        // Create a Scanner object
+    public static void main(String[] args) {
 
+        int randomNumber = new Random().nextInt(100) + 1;
+        int guessAttempts = 6;
+        int numberOfGuesses = 0;
+        int userGuess;
 
-        // Create a variable to hold the number of guess attempts, example
-        // int guessAttempts = 6;
+        boolean loop = true;
 
+        while (loop) {
+            while (guessAttempts > 0) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Please guess a number between 1 and 100. (You have " + guessAttempts + " guesses left): ");
+                //String userInput = scanner.nextLine();
+                try {
+                    //userGuess = Integer.parseInt(userInput);
+                    userGuess = scanner.nextInt();
+                    numberOfGuesses++;
 
-        // While the user has more than 0 guess attempts...
+                    loop = false;
+                    if (userGuess <= 0 || userGuess > 100) {
+                        throw new NumberFormatException("Number is out of range");
+                    }
 
-            // Ask the user for a number between 1 and 100
+                    if (userGuess == randomNumber) {
+                        System.out.println();
+                        System.out.println("Congrats, you guess correctly in " + numberOfGuesses + " guesses!");
+                        System.exit(0);
+                    }
+                    if (userGuess < randomNumber) {
+                        System.out.println();
+                        System.out.println("Sorry, you guessed too low.");
+                        guessAttempts--;
+                    }
+                    if (userGuess > randomNumber) {
+                        System.out.println();
+                        System.out.println("Sorry, you guessed too high.");
+                        guessAttempts--;
+                    }
 
+                } catch (NumberFormatException e) {
+                    System.out.println();
+                    System.out.println("Invalid entry. Please enter a number between 1 and 100.");
+                } catch (InputMismatchException e) {
+                    System.out.println();
+                    System.out.println("Invalid Entry. Please enter a valid integer.");
+                }
 
-            // If the user's number matches the random number tell the user they guessed correctly!
-            // Stop the program using:
-            // System.exit(0);
+            }
+        }
+        System.out.println("You are out of guesses. The correct number was " + randomNumber + ". Better luck next time.");
+    }
 
-
-            // Otherwise, if the user's number is lower than the random number,
-            // tell them they guessed too low
-
-                // Decrease the number of attempts by 1
-
-
-            // Otherwise, tell the user they guessed too high
-
-                // Decrease the number of attempts by 1
-
-
-        // Outside the loop, tell the user they have lost and reveal the random number!
-
-
-
-        /*
-         * Feel free to add any additional rules :)
-         */
 }
